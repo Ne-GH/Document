@@ -181,3 +181,4 @@ vim插件：
     ctrl + e 移动到命令的结尾
     ctrl + b 光标前移
     ctrl + f 光标后移
+
