@@ -27,9 +27,7 @@ vim的模式：
             dt + 字符 删除当前位置到指定字符之间的内容，包括当前位置，不包括指定字符
             d$ 删除当前位置到行尾的字符，包括当前位置
             d0 删除当前位置到行首的字符，不包括当前位置
-            x 和 d 都可配合数字或可视模式使用
-            printf("xiaoming  xiaoming xiaoming xiaoming") xiaoming  xiaoming xiaoming xiaoming 
-
+            x 和 d 都可配合数字或可视模式使用（x是删除字符，d是删除行）
         修改：
             r 将当前光标所在位置的字符替换为之后输入的字符
             R 不断替换当前位置即之后的文本，类似于键盘上 ins 的作用，覆盖，可按 esc 退出该状态
