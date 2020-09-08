@@ -12,5 +12,12 @@ SetConsoleWindowInfo(console, TRUE, &sr);
 SetConsoleCursorPosition(console, COORD);
 //将光标设置在控制台的指定位置,用句柄拿到控制台,用COORD结构体中的坐标定位,结构体COORD结构体成员依次为x,y
 
+
 SetConsoleTextAttribute(console, 0x9);
+//或
+SetConsoleTextAttribute(console,前景色 | 背景色 | 前景加强 | 背景加强); 
 //该函数影响调用后编写的文本,第一个形参为控制台缓冲区句柄,第二个形参为字符颜色
+前景色：数字0-15 或 FOREGROUND_XXX 表示  （其中XXX可用BLUE、RED、GREEN表示）  
+前景加强：数字8 或 FOREGROUND_INTENSITY 表示 
+背景色：数字16 32 64 或 BACKGROUND_XXX 三种颜色表示  
+背景加强： 数字128 或 BACKGROUND_INTENSITY 表示 
