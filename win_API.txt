@@ -1,0 +1,23 @@
+SetConsoleTitle("title");
+//设置控制台程序的标题
+
+SetConsoleCursorInfo(console, &cci);
+//API函数使用句柄和前面的光标信息结构体改变光标状态,cci是一个结构体,第一个成员控制光标大小(0-100),第二个成员控制光标是否显示(true 显示 ,false 不显示)
+
+SetConsoleScreenBufferSize(console, bufSize);//设置缓冲区的大小,bufSize表示大小
+
+SetConsoleWindowInfo(console, TRUE, &sr);
+//函数用以改变控制台当前大小,形参依次为1.窗口句柄,2.如果此参数为TRUE，则坐标指定窗口的新左上角和右下角。如果为FALSE，则坐标是相对于当前窗口角坐标的,3.指向SMAL_RECT结构体的指针,SMAL_RECT结构体成员依次为左上角x,y右下角x,y
+
+SetConsoleCursorPosition(console, COORD);
+//将光标设置在控制台的指定位置,用句柄拿到控制台,用COORD结构体中的坐标定位,结构体COORD结构体成员依次为x,y
+
+
+SetConsoleTextAttribute(console, 0x9);
+//或
+SetConsoleTextAttribute(console,前景色 | 背景色 | 前景加强 | 背景加强); 
+//该函数影响调用后编写的文本,第一个形参为控制台缓冲区句柄,第二个形参为字符颜色
+前景色：数字0-15 或 FOREGROUND_XXX 表示  （其中XXX可用BLUE、RED、GREEN表示）  
+前景加强：数字8 或 FOREGROUND_INTENSITY 表示 
+背景色：数字16 32 64 或 BACKGROUND_XXX 三种颜色表示  
+背景加强： 数字128 或 BACKGROUND_INTENSITY 表示 
