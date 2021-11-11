@@ -5,6 +5,15 @@ root专用指令{
 	lsmod //打印模块？（也不知到干啥的
 
 }
+
+|   批处理连接命令
+;   串联
+:>  清空文件
+&&
+||
+&>  将标准输出和标准错误重定向到文件
+>>  重定向
+
 ls 
 	-a //显示隐藏文件
 	-l //列表形式显示
@@ -45,3 +54,23 @@ uname //显示机器名称
 	-a //完整名称
 
 
+man{
+    whatis xx       查看xx命令在man的哪个页面
+    man -k 关键字   按关键字查找命令
+    1   可执行程序或 shell 命令
+    2   系统调用(内核提供的函数)
+    3   库调用(程序库中的函数)
+    4   特殊文件(通常位于 /dev)
+    5   文件格式和规范，如  /etc/passwd
+    6   游戏
+    7   杂项(包括宏包和规范，如 man(7)，groff(7))
+    8   系统管理命令(通常只针对 root 用户)
+    9   内核例程 [非标准
+}
+which dwm   查看dwm的安装路径
+ls |cat -n  将文件编号
+find srcdir -name "filename"    在srcdir下通过名字查找filename文件和文件夹
+cat -n filename     显示文件的同时显示行号
+head -number file   查看file的前number行
+tail -number file   查看file的后number行
+diff file1 file2    查看file1和file2的区别
