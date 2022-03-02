@@ -148,3 +148,4 @@ CocInstall coc-python
 
 
 # install stranstion
+pacman -S translate-shell
