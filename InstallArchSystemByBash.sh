@@ -1,5 +1,22 @@
 STARTINSTALL(){
-    echo "This is funtion START"
+    echo "This is funtion STARTINSTALL..."
+    lsblk
+    echo -en "Please input your disk number (such as : /dev/sdbx)"
+    read DISK
+    ONE="1"
+    TWO="2"
+    THREE="3"
+    DEVSTR="/dev/"
+    DEVDISK="$DEVSTR$DISK"
+
+
+    echo $DISK
+    echo $DEVDISK
+
+    echo "$DEVDISK'1'"
+    echo -en "o\nn\n\n\n+512M\nn\n\n\n\nw\n" | sudo fdisk $DEVDISK
+    yes | mkfs.fat -F 32 "$DEVDISK$ONE"
+    yes | mkfs.ext4 "$DEVDISK$TWO"
 
 
 }
