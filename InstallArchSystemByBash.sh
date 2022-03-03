@@ -1,4 +1,4 @@
-START(){
+STARTINSTALL(){
     echo "This is funtion START"
 
 
@@ -14,7 +14,7 @@ Main(){
     read ConfirmStart
     case "$ConfirmStart" in
         Y|y|YES|Yes|yes)
-            START ;;
+            STARTINSTALL ;;
         *)
             NOSTART ;;
     esac
