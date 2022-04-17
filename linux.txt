@@ -124,6 +124,12 @@ head -number file   查看file的前number行
 tail -number file   查看file的后number行
 diff file1 file2    查看file1和file2的区别
 
+diff file1 file2 > patchfile
+patch file1 < patchfile             应用刚才生成的patchfile文件,可将file1修改为file2
+
+diff -u file1 file2 > patchfile     生成用于file1的补丁
+patch < patchfile                   应用刚才生成的patchfile文件,可将file1修改为file2
+
 xinput list                                     列出设备
 xinput disable "AT Translated Set 2 keyboard"   关闭笔记本自带键盘
 xinput enable "at translated set 2 keyboard"    启用笔记本键盘
