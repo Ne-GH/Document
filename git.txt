@@ -14,6 +14,8 @@ git push
     提交代码到当前分支
 git push -u origin master 
     将文件提交到关联的github的仓库
+git push origin master --force
+    强制用本地仓库覆盖远程master仓库
 git status
     显示代码库状态
 git log 
