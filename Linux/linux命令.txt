@@ -1,0 +1,136 @@
+useradd username    添加用户
+passwd username     修改用户密码
+userdel username    删除用户
+usermod username    修改用户所属组
+    user -G root username   把username 添加到root组
+    user -L username    锁定用户
+    user -U username    解锁用户
+    user -c "***" username  修改用户说明 
+
+修改/etc/passwd 文件中的用户所属组修改为0,可让用户成为管理员组
+
+/etc/skel       用户的模板目录
+
+write username message  给用户发送信息
+
+ifconfig //配置网卡
+
+df      查看挂载点  -h 人性化显示
+du      查看目录大小
+fsck    文件系统修复命令
+
+fdisk //磁盘管理
+    -l 查看设备文件名
+
+mount   挂载磁盘
+        -a 根据/etc/fstab 的内容自动挂载
+
+
+modprobe //模块（不知道干啥的
+
+lsmod //打印模块？（也不知到干啥的
+
+init num
+     0(关机) 1(单用户,类似于安全模式,只启动最核心的功能) 2(不完全多用户,不含NFS) 3(完全多用户) 4(未分配) 5(图形界面) 6(重启)
+
+
+|   批处理连接命令
+;   串联
+:>  清空文件
+&&
+||
+&>  将标准输出和标准错误重定向到文件
+>>  重定向
+
+ls 
+	-a //显示隐藏文件
+	-l //列表形式显示
+	-h //人性化显示（配合-l使用
+
+cat //查看文件内容
+
+pwd //查看当前文件路径
+
+chmod //修改权限
+    u 表示“用户（user）”，即文件或目录的所有者。
+　　g 表示“同组（group）用户”，即与文件属主有相同组ID的所有用户。
+　　o 表示“其他（others）用户”
+    r       read          4
+    w       wirte         2
+    x       execute       1
+    -                     0
+    文件类型:
+    d   目录
+    c   字符串文件
+    l   链接文件
+chown   // 修改文件所有者
+    chwon 所有者 file
+    chown 所有者:组 file
+chgrp 用户组 文件或目录
+
+
+
+
+rm 
+	-r //删除文件夹
+	-f //不确认
+
+who //查看当前登录系统的用户,终端,时间
+
+which dwm   查看dwm的安装路径
+
+date //打印当前时间
+
+ps //显示当前进程，默认只显示当前用户创建的进程
+	-e	//所有进程
+
+kill //杀死某个进程
+
+uname //显示机器名称
+	-a //完整名称
+
+
+man{
+    whatis xx       查看xx命令在man的哪个页面
+    man -k 关键字   按关键字查找命令
+    1   可执行程序或 shell 命令
+    2   系统调用(内核提供的函数)
+    3   库调用(程序库中的函数)
+    4   特殊文件(通常位于 /dev)
+    5   文件格式和规范，如  /etc/passwd
+    6   游戏
+    7   杂项(包括宏包和规范，如 man(7)，groff(7))
+    8   系统管理命令(通常只针对 root 用户)
+    9   内核例程 [非标准
+}
+
+
+ls |cat -n  将文件编号
+
+find srcdir -name "filename"    在srcdir下通过名字查找filename文件和文件夹
+    -user   按所有者查询
+    -group  按所属组查找
+    -size   按大小查找  +204800     -size +204800 表示大于100M的文件 
+    -amm    按访问时间
+    -cmin   按文件属性时间          -cmin -5 表示5分钟内被修改的文件
+    -mmin   按modify            
+    -a      两个条件同时满足            -size +2048 -a -size -4096
+    -o      多个条件仅满足一个即可
+    -type   按类型
+
+
+cat -n filename     显示文件的同时显示行号
+head -number file   查看file的前number行
+tail -number file   查看file的后number行
+diff file1 file2    查看file1和file2的区别
+
+diff file1 file2 > patchfile
+patch file1 < patchfile             应用刚才生成的patchfile文件,可将file1修改为file2
+
+diff -u file1 file2 > patchfile     生成用于file1的补丁
+patch < patchfile                   应用刚才生成的patchfile文件,可将file1修改为file2
+
+xinput list                                     列出设备
+xinput disable "AT Translated Set 2 keyboard"   关闭笔记本自带键盘
+xinput enable "At translated set 2 keyboard"    启用笔记本键盘
+xinput disbale "UNIW0001:00 093A:1336 Touchpad" 关闭触摸板

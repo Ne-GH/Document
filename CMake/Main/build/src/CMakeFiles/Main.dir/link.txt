@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/Main.dir/main.o -o Main   -L/home/yongheng/Study/CMake/library/lib  -Wl,-rpath,/home/yongheng/Study/CMake/library/lib -lhello 

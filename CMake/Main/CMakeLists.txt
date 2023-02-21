@@ -1,0 +1,3 @@
+PROJECT(Main)
+
+ADD_SUBDIRECTORY(src)

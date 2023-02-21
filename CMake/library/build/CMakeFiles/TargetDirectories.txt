@@ -1,0 +1,6 @@
+/home/yongheng/Study/CMake/library/build/CMakeFiles/edit_cache.dir
+/home/yongheng/Study/CMake/library/build/CMakeFiles/rebuild_cache.dir
+/home/yongheng/Study/CMake/library/build/src/CMakeFiles/hello.dir
+/home/yongheng/Study/CMake/library/build/src/CMakeFiles/hello_static.dir
+/home/yongheng/Study/CMake/library/build/src/CMakeFiles/edit_cache.dir
+/home/yongheng/Study/CMake/library/build/src/CMakeFiles/rebuild_cache.dir

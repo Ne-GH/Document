@@ -1,0 +1,180 @@
+变量:
+    Shell变量一般是大写字母加下划线,shell的值都是字符串
+    环境变量
+    本地变量:
+        env 可以查看全部变量和环境
+        printenv 可以查看指定变量和环境
+        VARNAME=value   # 等号两边不能有空格,否则会被shell解释为命令行和命令行参数
+        export VARNAME  # 将VARNAME导出为环境变量
+        export VARNAME=value    # 定义的同时导出为环境变量
+        readonly VARNAME    # readonly使变量成为只读变量,其值不可更改
+        unset VARNAME   # 删除已经定义的环境变量和本地变量
+        ${VARNAME}      # 取得变量的值,也可以使用$VARNAME,但是有可能有歧义
+        ''              # 如果是单引号括住的字符串,将原样输出
+        ""              # 如果是双引号括住的字符串,会有\转义等
+        字符串:
+            ${#STRING}     # 字符串长度
+            ${STRING:1:4}  # 从下标为1开始读取4个
+        数组:
+            # 下标没有限制
+            ARRNAME=(val1 val2 ... valn)    # 集中赋值
+            ARRNAME[0]=val1                 # 单独赋值
+            ARRNAME[1]=val2
+            ARRNAME[n]=valn
+            获取某个数值:${ARRNAME[0]}
+            获取全部数值:${ARRNAME[@]}
+            获取数组长度:${#ARRNAME[@]},${#ARRNAME[*]}
+            获取单个元素长度:${#ARRNAME[n]}
+            
+    命令代换
+        `date`      # shell先执行双引号值将的命令,并将结果输入到当前命令行中
+        $(date)     # 等价于VARNAME='date';$VARDATE
+        $(())       # 将变量中的值作为数字进行运算
+
+
+
+bash运行:
+    由于启动脚本(bash启动时运行的脚本)运行的方法不同(fork子shell或者通过source执行),执行启动脚本的过程也不同
+    交互登陆shell(终端上输入的shell)或--login参数
+        首先执行/etc/profile        # 系统中每个用户登陆都要执行这个脚本
+        然后依次查找当前用户主目录的~/.bash_profile,~/.bash_login,~/.profile 三个文件,找到第一个存在并且可读可写的文件来执行
+        退出时会执行~/.bash_logout 脚本(不存在则不执行)
+    交互非登陆shell启动
+        启动时自动执行~/.bashrc
+
+    登陆shell和非登陆shell进行区分的原因:
+        登陆shell作为该用户所有子shell的父shell,可以将环境变量中的所有内容带入子shell中,但是本地变量函数等除非重新启动登陆shell否则不能被子shell得到,因此需要非登陆shell的启动脚本,在~/.bash_profile中设置环境变量在~/.bashrc中设置本地变量,函数,alias等
+
+    以sh命令启动
+        bash将模拟sh的行为,将依次执行/ect/profile,~/.profile文件
+    非交互启动
+        为执行脚本fork出来的子shell,不执行任何启动脚本
+
+输入:
+    read  
+        # -a 后跟一个变量，该变量会被认为是个数组，然后给其赋值，默认是以空格为分割符。
+        # -d 后面跟一个标志符，其实只有其后的第一个字符有用，作为结束的标志。
+        # -p 后面跟提示信息，即在输入前打印提示信息。
+        # -e 在输入的时候可以使用命令补全功能。
+        # -n 后跟一个数字，定义输入文本的长度，很实用。
+        # -r 屏蔽\，如果没有该选项，则\作为一个转义字符，有的话 \就是个正常的字符了。
+        # -s 安静模式，在输入字符时不再屏幕上显示，例如login时输入密码。
+        # -t 后面跟秒数，定义输入字符的等待时间。 
+
+
+
+
+条件判定:
+    [ -d DIR ]              # 文件DIR存在且为目录则为真
+    [ -e file ]             # 文件file存在则为真
+    [ -r file ]             # 文件file存在且可读则为真
+    [ -w file ]             # 文件file存在且可写则为真
+    [ -x file ]             # 文件file存在且可执行则为真
+    [ -f file ]             # 文件file存在且是普通文件则为真
+    [ -b file ]             # 文件file存在且是块特殊文件则为真
+    [ -c file ]             # 文件file存在且是字符型特殊文件则为真
+    [ -z STRING ]           # 如果STRING的长度为0则为真
+    [ -n STRING ]           # 如果STRING的长度非0则为真
+    [ STRING1 = STRING2 ]   # 如果STRING1和STRING2相等则为真
+                            # 在判断中使用==是bash的行为,不符合规范,因此判断时推荐使用=,以提高兼容性
+    [ STRING1 != STRING2 ]  # 如果STRING1和STRING2不相等则为真
+    [ ARG1 OP ARG2 ]        # ARG1和ARG2为整数或者整数变量,OP则为-eq(相等),-ne(不相等),-lt(小于),-le(小于等于),-gt(大于),-ge(大于等于)
+    [ ! EXPR ]              # 结果取反
+    [ EXPR1 -a EXPR2 ]      # 逻辑与&&
+    [ EXPR1 -o EXPR2 ]      # 逻辑或||
+
+    为了避免变量为空字符串时展开出现问题,条件判断中应该将$VARNAME 写成 "$VARNAME"
+    [ -d Desktop -a "$VARNAME" = 'abc']
+
+    
+分支控制:
+    if [  ];then
+                # 如果条件成立
+        :       # 空语句,运行结果恒为true
+    elif[  ];then
+        :
+    else
+        :
+    fi  # shell没有{  },因此用fi表示语句块的结束
+    
+
+    case "$VARNAME" in
+        1|12|123)
+            :   ;;          # case每条判断后面均以;;结尾
+        c|cp|cpp)
+            :   ;;  
+        *）                 # *出现在最后就表示默认情况
+            ：  ;;
+    esac                    # esac表示case的结束
+
+
+
+
+循环控制:
+    for VARNAME in range;do     # VARNAME的值从范围range中获取
+        :                       # 循环内容
+    done                        # for结束
+
+
+    while [  ];do       
+        :               
+    done
+
+
+位置参数和特殊变量:
+    $0              # 相当于C的argv[0]
+    $1              # 相当于C的argv[1]
+    $2,$3...        # 与$1类似
+    $#              # 相当于C的argc - 1
+    $@              # $1,$2... 表示参数列表
+    $?              # 上条命令的运行结果true或false
+    $$              # 当前shell的进程号
+
+    位置参数可以使用shift命令左移
+    shift           # shift 1
+    shift 3         # 丢弃$1,$2,$3,原来的$4成为$1,之后类推
+
+
+
+
+函数:
+    shell的函数没有参数列表和返回值,格式如下
+    定义:
+        fun(){
+            # 函数体的左花括号{和后面的命令之间必须有空格或换行，如果将最后一条命令和右花括号}写在同一行，命令末尾必须有;号
+            return num          # 指定返回num,如果不指定返回,默认将最后一句的执行结果作为返回值
+        }
+    调用:
+        fun
+
+    定义时没有参数列表不代表不可以传递参数
+        fun 1 2 3 4 5 6
+    函数中可以使用$@ 获取参数列表,这个参数列表是函数fun的参数列表,属于fun的局部变量,修改这些变量不会修改函数外的参数列表
+
+
+
+
+shell脚本调试:
+    -n      # 读一遍脚本中的命令但不执行，用于检查脚本中的语法错误
+    -v      # 一边执行脚本，一边将执行过的脚本命令打印到标准错误输出
+    -x      # 提供跟踪执行信息，将执行的每一条命令和结果依次打印出来
+    这三个选项可以
+        写在运行命令中,例如:bash -x temp.sh
+        也可以写在shell文件的#!里,例如#!/usr/bin/bash -x
+        也可以写在shell文件中     set -x,启用-x选项   set +x,禁用-x选项
+        
+输入输出重定向:
+    > file 	            # 将输出重定向到file,会截断原来的文件,默认为标准重定向,即1>
+    < file 	            # 将输入重定向到file
+    >> file 	        # 将输出以追加的方式重定向到 file
+    n > file 	        # 将文件描述符为n的文件重定向到file
+    n >> file 	        # 将文件描述符为n的文件以追加的方式重定向到file
+    n>&m 	            # 将输出文件m和n合并,1>&2,将表述输出重定向到通道2(&2,没有&时表示重定向到文件2)
+    n<&m 	            # 将输入文件m和n合并
+    << tag 	            # 将开始标记tag和结束标记tag之间的内容作为输入
+
+包含文件:
+    # 被包含的shell文件不需要可执行权限
+    . filename          # 等同于c的#include"filename",例如: . ./shname.sh
+    source filename     # 等同于c的#include"filename",例如: source ./shname.sh
+
