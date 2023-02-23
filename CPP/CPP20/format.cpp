@@ -103,3 +103,46 @@ int main() {
 
 	return 0;
 }
+
+
+
+// 这是一个可以传递参数给自定义类型的demo
+/*
+#include <format>
+#include <iostream>
+#include <string>
+#include <ranges>
+
+class Person {
+ public:
+  int age;
+  std::string name;
+};
+
+template <>
+struct std::formatter<Person> {
+  std::string_view fmt_str;
+
+  template<typename ParseContext>
+  constexpr auto parse(ParseContext& ctx) {
+    auto begin = ctx.begin();                       // ctx is "x}{:*^10}"
+    auto it = std::formatter<int>{}.parse(ctx);     // now, it point to "}{:*^10}"
+    it = std::ranges::find(it + 1, ctx.end(), ':'); // now, it point to ":*^10}"
+    ctx.advance_to(it + 1);                         // now, ctx is "*^10}"
+    it = std::formatter<std::string>{}.parse(ctx);  // now, it point to "}"
+    fmt_str = {begin - 2, it + 1};                  // now fmt_str is "{:x}{:*^10}"
+    return it;
+  }
+
+  template <typename FormatContext>
+  auto format(const Person& p, FormatContext& ctx) const {
+    return std::vformat_to(ctx.out(), fmt_str, std::make_format_args(p.age, p.name));
+  }
+};
+
+int main() {
+  Person p{ 30,"John Doe" };
+  std::cout << std::format("{:x}{:*^10}", p) << '\n';
+  std::cout << std::format("The age is {:}, and the name is {: ^5}", p) << '\n';
+}
+*/
