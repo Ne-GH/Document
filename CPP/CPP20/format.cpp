@@ -146,3 +146,58 @@ int main() {
   std::cout << std::format("The age is {:}, and the name is {: ^5}", p) << '\n';
 }
 */
+
+// 另一个demo
+/*
+#include <format>
+#include <iostream>
+#include <string>
+#include <ranges>
+
+class Person {
+ public:
+  int age;
+  std::string name;
+};
+
+template <>
+struct std::formatter<Person> {
+  std::formatter<int> age;
+  std::formatter<std::string> name;
+
+
+  template<typename ParseContext>
+  constexpr auto parse(ParseContext& ctx) {
+    auto it = ctx.begin();
+    if (it == ctx.end() || *it == '}') {
+      if (age.parse(ctx) != it || name.parse(ctx) != it) {
+        throw std::format_error("bad");
+      }
+      return it;
+    }
+
+    if (*it != '{') throw std::format_error("bad");
+    ctx.advance_to(it + 1);
+    it = age.parse(ctx);
+    if (it == ctx.end() || *it != '}') throw std::format_error("bad");
+    ++it;
+    if (it == ctx.end() || *it != '{') throw std::format_error("bad");
+    ctx.advance_to(it + 1);
+    it = name.parse(ctx);
+    if (it == ctx.end() || *it != '}') throw std::format_error("bad");
+    return it + 1;
+  }
+
+  template <typename FormatContext>
+  auto format(const Person& p, FormatContext& ctx) const {
+    ctx.advance_to(age.format(p.age, ctx));
+    ctx.advance_to(name.format(p.name, ctx));
+    return ctx.out();
+  }
+};
+
+int main() {
+  Person p{ 30,"John Doe" };
+  std::cout << std::format("{:{x}{*^10}}", p) << '\n';
+}
+*/
