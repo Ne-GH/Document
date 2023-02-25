@@ -1,2 +1,0 @@
-/usr/bin/ar qc OUTDIR/libhello.a CMakeFiles/hello_static.dir/hello.o
-/usr/bin/ranlib OUTDIR/libhello.a
