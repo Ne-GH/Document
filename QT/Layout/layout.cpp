@@ -140,3 +140,9 @@ int main(int argc, char *argv[]) {
 //    w.show();
     return a.exec();
 }
+
+/*
+ *  额外批注:
+ *  使用Qt 设计师的默认布局时,外边框存在间隙,可修改margin属性为0
+ *  或在QWiget的构造函数中调用setContentsMargins()方法,将外边框设置为0
+*/
