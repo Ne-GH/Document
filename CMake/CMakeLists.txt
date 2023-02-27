@@ -8,6 +8,15 @@ else()
 endif()
 
 
+# 判断是x86 还是 x64
+if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+  message("32-bit system")
+elseif(CMAKE_SIZEOF_VOID_P EQUAL 8)
+  message("64-bit system")
+else()
+  message("Unknown system architecture")
+endif()
+
 
 CMAKE_BINARY_DIR
 PROJECT_BINARY_DIR
