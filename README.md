@@ -3,7 +3,6 @@
 [C](./C)  
 [CMake](./CMake)  
 [CPP](./CPP)  
-[CSAPP](./CSAPP)  
 [GDB](./GDB)  
 [Git](./Git)  
 [Linux](./Linux)  
