@@ -1,3 +1,14 @@
+# 使用CMAKE判断系统类型
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  # Windows-specific code
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  # Linux-specific code
+else()
+  message(FATAL_ERROR "Unsupported system")
+endif()
+
+
+
 CMAKE_BINARY_DIR
 PROJECT_BINARY_DIR
 <projectname>_BINARY_DIR
