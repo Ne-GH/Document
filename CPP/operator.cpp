@@ -69,6 +69,13 @@ public:
         this->id ++;
         return no;
     }
+    
+    // 返回类型不一定需要是node,但是参数列表必须如此
+    node operator ""_ms(const char *str,std::size_t len){
+        // ... 使用的时候就是"1233"_ms
+    }
+    
+
 private:
     int nums[10];
 
