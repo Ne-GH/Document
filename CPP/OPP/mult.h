@@ -46,6 +46,9 @@ public:
     int k = 3;
 };
 
+// 虚拟继承的作用:
+// 当派生类的基类存在共同的基类时,重复部分会存在多份
+// 使用virtual 继承时,重复部分也仅存在一份
 class T:public virtual base1,public virtual base2,public base3{
 public:
     T(){
