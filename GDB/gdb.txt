@@ -40,6 +40,7 @@ quit:q          退出gdb
     print name：将显示字符串 name 的值
     print gdb_test(22)：将以整数22作为参数调用 gdb_test() 函数
     print gdb_test(a)：将以变量 a 作为参数调用 gdb_test() 函数
+    printf "format",val
     display 表达式：在单步运行时将非常有用，使用display命令设置一个表达式后，它将在每次单步进行指令后，紧接着输出被设置的表达式及值。如： display a
     watch 表达式：设置一个监视点，一旦被监视的“表达式”的值改变，gdb将强行终止正在被调试的程序。如： watch a
     whatis ：查询变量或函数
