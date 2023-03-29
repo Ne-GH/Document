@@ -17,6 +17,9 @@ else()
   message("Unknown system architecture")
 endif()
 
+# 指定编译器
+set(CMAKE_CXX_COMPILER "path")
+
 
 CMAKE_BINARY_DIR
 PROJECT_BINARY_DIR
