@@ -30,3 +30,7 @@ ssh-keygen -t rsa -C "你的邮箱"
     生成ssh密匙
 ssh -T git@github.com
     测试是否能正常连接github
+
+git log
+git reset -hard XXXXXX(HEAD^)
+git push origin HEAD --force
