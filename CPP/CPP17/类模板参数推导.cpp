@@ -16,8 +16,7 @@ using namespace std;
 template<typename T,int SZ>
 class MyClass{
 public:
-    //\
-    MyClass(T(&)[SZ])   // 同下,但是没有得到字符串
+    // MyClass(T(&)[SZ])   // 同下,但是没有得到字符串
     MyClass(T(& str)[SZ]){
         cout << "str:" << str << endl;
         cout << "Size:" << SZ << endl;
@@ -82,6 +81,17 @@ explicit S(T)->T<T*>;
 // S s = {1}    -->  S<int> s
 
 
+// 通过构造函数的参数指定类中成员的类型
+template <typename T>
+class Test {
+    T _val;
+public:
+    Test(T val) {
+        _val = val;
+    }
+
+
+};
 
 
 int main(int argc,char *argv[]){
@@ -132,8 +142,6 @@ int main(int argc,char *argv[]){
 //  S s5("123456");
 
     s.Str();
-
-
 
 
 
