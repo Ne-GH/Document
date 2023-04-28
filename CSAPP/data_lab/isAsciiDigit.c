@@ -1,3 +1,4 @@
+// 0x30 <= x <= 0x39 时返回1,否则返回0
 int isAsciiDIgit(int x) {
 
     int flag = !(x & 0xffffffc0);
