@@ -4,5 +4,7 @@
  * 否：返回0
  */
 int isTmax(int x) {
-    return !(x ^0x7fffffff);
+    unsigned int mod = ~0;
+    mod >>= 1;
+    return !(x ^mod);
 }

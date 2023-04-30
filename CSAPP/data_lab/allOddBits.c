@@ -2,5 +2,9 @@
 // 是：返回1
 // 否：返回0
 int allOddBits(int x) {
-    return ~(x & 0xaaaaaaaa ^ 0xaaaaaaaa);
+    int num = 0xaa;
+    num ^= num << 8;
+    num ^= num << 16;
+    // num = 0xaaaaaaaa
+    return !(x & num ^ num);
 }
