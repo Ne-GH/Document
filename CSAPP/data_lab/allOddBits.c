@@ -5,6 +5,5 @@ int allOddBits(int x) {
     int num = 0xaa;
     num ^= num << 8;
     num ^= num << 16;
-    // num = 0xaaaaaaaa
     return !(x & num ^ num);
 }

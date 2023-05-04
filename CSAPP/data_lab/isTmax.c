@@ -4,7 +4,9 @@
  * 否：返回0
  */
 int isTmax(int x) {
-    unsigned int mod = ~0;
-    mod >>= 1;
-    return !(x ^mod);
+    int mask = x + 1;
+    mask = ~mask;
+
+    // 如果x 是0xffffffff,~!x 就是1,0x7fffffff就是0
+    return !((x + !(~x)) ^ mask);
 }
