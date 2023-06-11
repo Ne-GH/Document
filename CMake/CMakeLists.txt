@@ -20,15 +20,19 @@ endif()
 # 指定编译器
 set(CMAKE_CXX_COMPILER "path")
 
+
+# 设置 C 编译选项(优先使用set CMKAE_C_FLAGS)
+set(CMAKE_C_FLAGS -O2)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+# 设置 C++编译选项
+set(CMAKE_CXX_FLAGS -O2)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+
 # 添加编译器选项(CMakeList 所在路径下的源文件均可见)
 add_compile_options(0Wall -O2)
 # 添加宏定义,所有源文件均可见宏`DEBUG`
 add_compile_definitions(DEBUG)
 
-# 设置 C 编译选项
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
-# 设置 C++编译选项
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 # 判断编译器版本
 # VERSION_LESS  版本低于
