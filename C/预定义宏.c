@@ -2,13 +2,13 @@
 
 #pragma c11 on
 #if __STDC_VERSION__!=201112L
-#error ²»ÊÇC11
+#error ä¸æ˜¯C11
 #endif
 
 
 
-//#line 1000
-#line 4 "Ô¤¶¨Òå.c"
+// line 1000
+#line 4 "é¢„å®šä¹‰.c"
 int func() {
 
 
