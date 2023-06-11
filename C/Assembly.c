@@ -54,6 +54,12 @@ int main(){
 
     printf("%d %d",a,b);
 
-
+    // 获取flag寄存器
+    int flag;
+    asm (
+            "pushfq \n"
+            "popq %0 \n"
+            : "=r" (flags)
+            );
     return 0;
 }
