@@ -16,6 +16,25 @@
 #else 
     double Mc = 10.10;
 #endif
+
+
+
+
+// 根据条件判断编译器环境
+#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 9))
+  // 编译器版本大于等于 4.9，可以使用某些特性
+#endif
+
+#if defined(_MSC_VER) && _MSC_VER >= 1900
+  // 编译器版本大于等于 MSVC 2015，可以使用某些特性
+#endif
+
+#if defined(__clang__) && (__clang_major__ > 3 || (__clang_major__ == 3 && __clang_minor__ >= 5))
+  // 编译器版本大于等于 Clang 3.5，可以使用某些特性
+#endif
+
+
+
 int main(){
 
 
