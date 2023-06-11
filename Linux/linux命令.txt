@@ -134,3 +134,23 @@ xinput list                                     列出设备
 xinput disable "AT Translated Set 2 keyboard"   关闭笔记本自带键盘
 xinput enable "At translated set 2 keyboard"    启用笔记本键盘
 xinput disbale "UNIW0001:00 093A:1336 Touchpad" 关闭触摸板
+
+
+ctrl + l 清屏
+ctrl + h 删除上一个字符
+ctrl + w 删除上一个单词
+ctrl + u 删除当前行
+ctrl + a 移动到命令的开头
+ctrl + e 移动到命令的结尾
+ctrl + b 光标前移
+ctrl + f 光标后移,兼默认补全
+ctrl + h 光标往左删
+ctrl + d 光标往右删,在没有命令的情况下关闭终端
+ctrl + j 相当于回车
+ctrl + p 历史记录
+tab 模糊补全
+ctrl + t 查找文件（先输入指令，需要文件目录时按下ctrl + t）
+ctrl + r 显示历史记录
+ctrl + HJKL 左下上右
+ctrl + n + j 往下移动光标,其他方向类似
+
