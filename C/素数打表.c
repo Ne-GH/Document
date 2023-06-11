@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<stdbool.h>
 #include<math.h>
-//_Bool c[10000];//ÎÞstdbool.hÍ·ÎÄ¼þ
-bool d[20000];//ÓÐstdbool.hÍ·ÎÄ¼þ
+//_Bool c[10000];//æ— stdbool.hå¤´æ–‡ä»¶
+bool d[20000];//æœ‰stdbool.hå¤´æ–‡ä»¶
 int main() {
 	int n;
 	scanf("%d", &n);
