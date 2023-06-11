@@ -27,7 +27,7 @@ alt+1或2或一直到9//切换桌面
 
 alt+ctl+多个数字键
 
-你想把几个窗口放到一块看，用alt+ctal+标签数字。
+你想把几个窗口放到一块看，用alt+ctrl+标签数字。
 
 alt+b	//背景透明度关闭
 alt+shift+b//打开
@@ -35,9 +35,6 @@ alt+shift+b//打开
 
 alt+shift+f//菜单栏都隐藏的那种全屏
 退出来是再按一次。
-
-
-dd是删除一行
 
 
 u//撤销
@@ -169,3 +166,41 @@ gf打开文件里的路径
 修改透明度 :
 文件 /home/yongheng/.config/compton.conf
 指令 killall conpton (杀死进程)和compton -b(推测是启用进程) 
+
+
+startx 进入桌面
+alt + shfit + q 退出桌面
+alt + ~ 呼出和关闭中间的小窗口
+alt + 回车 将当前窗口切到工作区
+alt + m 全屏
+alt + t 退出全屏 
+alt + 空格 进入全屏和退出全屏
+atrl + g 接受虚拟机控制
+atrl + win + ctrl 退出虚拟机控制
+alt + i 工作区横向排列
+alt + d 工作区竖着排列
+alt + 数字（0 - 9 ）切换桌面
+alt + shfit + 数字 将当前所选终端放入指定桌面
+alt + b 背景透明度关闭
+alt + shfit + b 透明度打开
+alt + shfit + f 进入或退出隐藏菜单栏的全屏
+在可视模式下选中多行，用I或A插入，可在同一位置插入相同的内容
+.config/wallpapers 目录下存放壁纸
+dhcpcd 获取当前ip地址
+wifi-menu 如果是无线网络须执行这个指令
+修改透明度：
+    文件/home/yongheng/.config/compton.conf
+    指令killall conpton（杀死进程）和 compton -b （推测是启用进程）
+文件操作：
+    alt + c 快速目录跳转
+    ctrl + j 或 ctrl + k 上下移动
+    ctrl + m 或 回车 选中文件
+    vim 下,有多个选项卡
+        ctrl + w 删除后面的选项卡
+        ctrl + s 删除前面的选项卡
+        空格 + k 标记/取消标记
+        空格 + z 模糊文本查找
+        gf 打开文本中的路径
+        空格 + f 查找文件
+        空格 + b 打开缓存
+        空格 + F 查找标准头文件
