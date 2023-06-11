@@ -2,6 +2,29 @@
 #include <regex>
 using namespace std;
 
+int Regex() {
+    std::regex r(
+            "(\\()?(\\d{3})(\\))?([-. ])?(\\d{3})([-. ])(\\d{4})"
+            );
+    // 样例输入 ： (123)-123-1234
+    // 1 (
+    // 2 123     .
+    // 3 )
+    // 4 -
+    // 5 123     .
+    // 6 -
+    // 7 1234    .
+
+    smatch m;
+    string s;
+    string fmt = "$1$3$4$6 ";
+    string fmt_num = "$2$5$7";
+    while (getline(cin,s)) {
+        cout << regex_replace(s,r,fmt) << endl;
+        cout << regex_replace(s,r,fmt_num) << endl;
+    }
+}
+
 int main(){
 
     string pattern("[^c]ei");
