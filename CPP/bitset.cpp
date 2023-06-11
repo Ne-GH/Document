@@ -16,6 +16,7 @@ int main(){
     cout << bitset4.to_string() << endl;
     cout << bitset4.to_ullong() << endl;
 
+    // 若在编译时 bitset 的大小未知，则可使用 std::vector<bool>
 
     return 0;
 }
