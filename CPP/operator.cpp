@@ -3,6 +3,8 @@
 #include <istream>
 #include <ostream>
 
+
+using std::cout,std::endl;
 // 重载的运算符的本质是函数
 // 我们不能重载内置类型的算数运算符
 // 因此我们在这里构造我们自己的类
@@ -70,11 +72,20 @@ public:
         return no;
     }
     
-    // 返回类型不一定需要是node,但是参数列表必须如此
-    node operator ""_ms(const char *str,std::size_t len){
-        // ... 使用的时候就是"1233"_ms
-    }
     
+    void* operator new(unsigned long size_t){
+        cout << "重载的new" << endl;
+
+        if(void *p = malloc(size_t)){
+            return p;
+        }
+        else
+            return NULL;
+    }
+
+    void operator delete(void *p){
+        free(p);
+    }
 
 private:
     int nums[10];
@@ -123,7 +134,11 @@ bool operator != (node no1,node no2){
         return true;
     return false;
 }
-
+// 返回类型不一定需要是node,但是参数列表必须如此
+node operator ""_ms(const char *str,std::size_t len){
+    // ... 使用的时候就是"1233"_ms
+    return node();
+}
 int main(){
     node no1,no2;
     // 如果把node的输入输出定义为成员函数,则如下:
