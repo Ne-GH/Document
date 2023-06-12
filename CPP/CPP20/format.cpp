@@ -93,8 +93,28 @@ int main() {
 	
 
 	// 添加对chrono的支持
+    // %Y  四位数年，不足前补0
+    // %m  两位数月，不足前补0
+    // %d  两位数日，不足前补0, %e 补‘ ’
+    // %D  等价于 "%m/%d/%y" 。
+    // %F  等价于 "%Y-%m-%d" 。
+    
+    // %H  24小时时钟，不足时前补0, I 12小时，前补0
+    // %M  分钟，前补0
+    // %S  秒，前补0
+    // %R  等价于 "%H:%M" 。
+    // %T  等价于 "%H:%M:%S" 
+
+    // %A  完整星期名，%a  缩写星期名
+
+    // %z 与UTC的偏移，%Z  时区缩写
+    // UTC时间
 	auto cur_time = std::chrono::system_clock::now();
 	std::cout << "当前时间为: " << std::format("{:%Y-%m-%d %T}",cur_time) << std::endl;
+    // 本地环境时间
+    std::cout << "当前时间为: " <<
+        std::chrono::current_zone()->to_local(std::chrono::system_clock::now())
+    << std::endl;
 	// 时间间隔
 	auto count = std::chrono::minutes(100) + std::chrono::minutes(55);
 	std::cout << std::format("{:%H:%M:%S}", count) << std::endl;
