@@ -2,6 +2,7 @@
 
 using namespace std;
 
+// 如果不添加作用域，那么不同的enum中的枚举类型不能相同
 // 限定作用域的enum
 enum class EnumClass{
     OneClass = 10,
