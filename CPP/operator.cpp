@@ -87,6 +87,7 @@ public:
         free(p);
     }
 
+
 private:
     int nums[10];
 
@@ -139,6 +140,35 @@ node operator ""_ms(const char *str,std::size_t len){
     // ... 使用的时候就是"1233"_ms
     return node();
 }
+
+class Node {
+    int _val;
+public:
+    // <=>重载仅会生成<,<=,>,>=
+    // 对于!=，如果==没有被定义，则!=默认是delete的，否则为==的取反
+  
+    // 强序
+    // auto operator <=> (const Node& node1){
+    //     return std::strong_ordering (_val <=> node1._val);
+    // }
+
+    // std::strong_ordering operator <=> (node node1,node node2) {
+    //     if (node1 == node2) {
+    //       return std::strong_ordering::equal;
+    //     }
+    //     else if (node1 < node2) {
+    //         return std::strong_ordering::less;
+    //     }
+    //     else {
+    //        return std::strong_ordering::greater;
+    //     }
+    // }
+    
+    // 弱序
+    auto operator <=> (const Node& node1) {
+        return std::weak_ordering (_val <=> node1._val);
+    }
+};
 int main(){
     node no1,no2;
     // 如果把node的输入输出定义为成员函数,则如下:
