@@ -1,6 +1,6 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <chrono>
+#include <iomanip>
 
 using namespace std;
 
@@ -13,36 +13,39 @@ long long func(long long n) {
 
 int main() {
 
-	// 1 Ğ¡Ê±
+	// 1 å°æ—¶
 	chrono::hours H(1);
-	// 1 ºÁÃë
+	// 1 æ¯«ç§’
 	chrono::milliseconds MS(1);
-	// 1 Î¢Ãë
+	// 1 å¾®ç§’
 	chrono::microseconds MCS(1);
 
 
-	// »ñÈ¡µ±Ç°Ê±¼ä
+	// è·å–å½“å‰æ—¶é—´
 	auto tp = chrono::system_clock::now();
 
 	
-	std::cout << "µ±Ç°ÏµÍ³Ê±¼ä: " << tp.time_since_epoch().count() << endl;
+	std::cout << "å½“å‰ç³»ç»Ÿæ—¶é—´: " << tp.time_since_epoch().count() << endl;
 	
 	time_t now = chrono::system_clock::to_time_t(tp);
-	std::cout << "µ±Ç°Ê±¼ä(time_t): " << now << endl;
+	std::cout << "å½“å‰æ—¶é—´(time_t): " << now << endl;
 	std::cout << put_time(localtime(&now), "%Y-%m-%d %H:%M:%S") << endl;
 	
 
-	// Í³¼ÆÔËĞĞÊ±¼ä
+	// ç»Ÿè®¡è¿è¡Œæ—¶é—´
 	auto start = chrono::steady_clock::now();
 	func(42);
 	auto end = chrono::steady_clock::now();
 
-	// ratio<one,two>ÖĞµÄÄÚÈİÎª×Ô¶¨ÒåÊ±¼äµ¥Î»
-	// ¼´Ò»Ãë Ôö¼Ótwo / one
-	// Ä¬ÈÏÎªratio<1>, ¿ÉÊ¡ÂÔ
+	// ratio<one,two>ä¸­çš„å†…å®¹ä¸ºè‡ªå®šä¹‰æ—¶é—´å•ä½
+	// å³ä¸€ç§’ å¢åŠ two / one
+	// é»˜è®¤ä¸ºratio<1>, å¯çœç•¥
 	chrono::duration<double,milli> times = end - start;
-	std::cout << "º¯ÊıfuncÔËĞĞÊ±¼äÎª: " << times.count() << endl;
+	std::cout << "å‡½æ•°funcè¿è¡Œæ—¶é—´ä¸º: " << times.count() << "ms" << endl;
 
+    func(43);
+	chrono::duration<double> scends_times = end - start;
+	std::cout << "è¿è¡Œæ—¶é—´ä¸º: " << scends_times.count() << "s" << endl;
 
 	// time_point
 	auto timepoint = chrono::system_clock::now();
