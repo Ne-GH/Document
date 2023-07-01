@@ -16,17 +16,17 @@
 
 void QtFileTree(Ui::MainWindow *ui) {
 
-// 创建一个 QFileSystemModel 数据模型
+    // 创建一个 QFileSystemModel 数据模型
     QFileSystemModel* model = new QFileSystemModel();
     model->setRootPath(""); // 设置根路径为当前目录
 
     QTreeView* treeView = ui->treeView;
-// 将数据模型设置给 QTreeView
+    // 将数据模型设置给 QTreeView
     treeView->setModel(model);
 
-// 设置树状视图的根索引为数据模型的根索引
+    // 设置树状视图的根索引为数据模型的根索引
     treeView->setRootIndex(model->index(QDir::currentPath()));
-// 隐藏完整路径，仅显示文件名称
+    // 隐藏完整路径，仅显示文件名称
     treeView->setRootIndex(model->index(QDir::currentPath()));
     treeView->setColumnHidden(1, true); // 隐藏路径列
     treeView->setColumnHidden(2, true); // 隐藏大小列
@@ -34,85 +34,78 @@ void QtFileTree(Ui::MainWindow *ui) {
 }
 
 
-void GetFilePath() {
+
+void CppFileTree(Ui::MainWindow *ui) {
+    //1，构造Model，这里示例具有3层关系的model构造过程
+    auto model = new QStandardItemModel(ui->treeView);
+    //    model->setHorizontalHeaderLabels(QStringList {"x1","x2"});     //设置列头
+    model->setHorizontalHeaderLabels(QStringList {"文件名"});     //设置列头
+
+
     auto path = std::filesystem::current_path();
     path = path.parent_path().parent_path();
     std::filesystem::path hide_dir = "/dev/null";
 
     std::cout << path.string() << std::endl;
     auto base_path = path.string();
-    int tab = (- std::count(base_path.begin(),base_path.end(),'/')-1) * 4;
+    int tab = (- std::count(base_path.begin(),base_path.end(),'/')-1);
 
-        for (auto file : std::filesystem::recursive_directory_iterator(path)) {
-            [&](int tab) {
-                auto tmp = file.path().string();
-                tab += std::count(tmp.begin(),tmp.end(),'/') * 4;
-                if (file.is_directory()) {
-                    if (file.path().filename().string()[0] == '.') {
-                        hide_dir = file.path();
-                    }
-                    else if (file.path().string().find(hide_dir) != std::string::npos) {
-                        ;
-                    }
-                    else {
-                        std::cout << std::string(tab,' ') << file.path().filename().string() << std::endl;
-                    }
+    std::vector<std::vector<QStandardItem *>>vec;
+    std::cout << path.filename().string() << std::endl;
+    vec.push_back({new QStandardItem(path.filename().string().c_str())});
+    model->appendRow(vec[0][0]);
+    for (auto file : std::filesystem::recursive_directory_iterator(path)) {
+        bool is_hide_file = false;
+        [&](int tab) {
+            auto file_path_string = file.path().string();
+            auto file_name = file.path().filename().string();
+
+            tab += std::count(file_path_string.begin(),file_path_string.end(),'/');
+            if (file.is_directory()) {
+                // 首次出现的隐藏文件夹
+                if (file.path().filename().string()[0] == '.') {
+                    hide_dir = file.path();
+                    is_hide_file = true;
                 }
-                else if (file.is_regular_file()) {
-                    if (auto pos = file.path().string().find(hide_dir);pos != std::string::npos) {
-                        ;
-                    }
-                        // 隐藏文件
-                    else if (file.path().filename().string()[0] == '.') {
-                        ;
-                    }
-                    else {
-                        std::cout << std::string(tab,' ') << file.path().filename().string() << std::endl;
-                    }
+                // 隐藏文件夹的子路径
+                else if (file.path().string().find(hide_dir) != std::string::npos) {
+                    is_hide_file = true;
                 }
-            }(tab);
-        }
-
-}
-
-
-void CppFileTree(Ui::MainWindow *ui) {
-    //1，构造Model，这里示例具有3层关系的model构造过程
-    QStandardItemModel* model = new QStandardItemModel(ui->treeView);
-    model->setHorizontalHeaderLabels(QStringList()<<QStringLiteral("序号") << QStringLiteral("名称"));     //设置列头
-    for(int i=0;i<5;i++)
-    {
-        //一级节点，加入mModel
-        QList<QStandardItem*> items1;
-        QStandardItem* item1 = new QStandardItem(QString::number(i));
-        QStandardItem* item2 = new QStandardItem(QStringLiteral("一级节点"));
-        items1.append(item1);
-        items1.append(item2);
-        model->appendRow(items1);
-
-        for(int j=0;j<5;j++)
-        {
-            //二级节点,加入第1个一级节点
-            QList<QStandardItem*> items2;
-            QStandardItem* item3 = new QStandardItem(QString::number(j));
-            QStandardItem* item4 = new QStandardItem(QStringLiteral("二级节点"));
-            items2.append(item3);
-            items2.append(item4);
-            item1->appendRow(items2);
-
-            for(int k=0;k<5;k++)
-            {
-                //三级节点,加入第1个二级节点
-                QList<QStandardItem*> items3;
-                QStandardItem* item5 = new QStandardItem(QString::number(k));
-                QStandardItem* item6 = new QStandardItem(QStringLiteral("三级节点"));
-                items3.append(item5);
-                items3.append(item6);
-                item3->appendRow(items3);
+                else {
+        //                    std::cout << std::string(tab*4,' ') << file.path().filename().string() << std::endl;
+                }
             }
-        }
+            else if (file.is_regular_file()) {
+                if (auto pos = file.path().string().find(hide_dir);pos != std::string::npos) {
+                    is_hide_file = true;
+                }
+                    // 隐藏文件
+                else if (file.path().filename().string()[0] == '.') {
+                    is_hide_file = true;
+                }
+                else {
+        //                    std::cout << std::string(tab*4,' ') << file.path().filename().string() << std::endl;
+                }
+            }
+
+            if (is_hide_file == true) {
+                return;
+            }
+            auto it1 = new QStandardItem(file_name.c_str());
+            if (vec.size() <= tab+1) {
+                vec.back().back()->appendRow(it1);
+                vec.push_back({});  // vec.size ++
+                vec.back().push_back(it1);
+            }
+            // tab = 2,
+            else {
+                vec[tab].back()->appendRow(it1);
+                vec[tab+1].push_back(it1);
+            }
+
+        }(tab);
     }
-    //2，给QTreeView应用model
+
     ui->treeView->setModel(model);
 
 }
@@ -165,6 +158,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->splitter->setStretchFactor(0,1);
     ui->splitter->setStretchFactor(1,9);
 
+// 假设您已经有一个名为 treeView 的 QTreeView 实例
+
+// 连接 clicked 信号到自定义的槽函数
+    connect(ui->treeView, &QTreeView::clicked, this, [=] (const QModelIndex &index) {
+
+        // 检查 index 是否有效
+        if (index.isValid())
+        {
+            // 获取点击的模型索引所表示的数据
+            QVariant data = index.data();
+
+            // 在这里处理您需要的逻辑，比如显示数据、执行操作等
+            qDebug() << "Clicked on item: " << data.toString();
+        }
+    });
 
 
 }
