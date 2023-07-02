@@ -10,9 +10,115 @@
 #include <filesystem>
 #include <QFileSystemModel>
 #include <QStandardItemModel>
-
+#include <QLineEdit>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+
+auto Select(std::string file_path) {
+    QSqlQuery query;
+    query.prepare("SELECT * FROM documents_table WHERE file_path = :filepath");
+    query.bindValue(":filepath", file_path.c_str());
+    std::vector<std::string> select_ret;
+    if (query.exec()) {
+        while (query.next()) {
+            // 读取每一条记录的数据
+            int id = query.value("id").toInt();
+            QString fileName = query.value("file_name").toString();
+            QString filePath = query.value("file_path").toString();
+            int fileSize = query.value("file_size").toInt();
+            // 处理数据...
+            qDebug() << filePath;
+            select_ret.push_back(fileName.toStdString());
+        }
+    } else {
+        // 查询失败
+    }
+    return select_ret;
+}
+
+void Insert(std::string file_name,std::string file_path) {
+//    query.prepare("INSERT INTO documents_table (file_name, file_path, file_size) "
+//                  "SELECT :fileName, :filePath, :fileSize "
+//                  "WHERE NOT EXISTS (SELECT 1 FROM documents_table WHERE file_name = :fileName)");
+    QSqlQuery query;
+    query.prepare("INSERT INTO documents_table (file_name, file_path, file_size) "
+                  "VALUES (:fileName, :filePath, :fileSize)");
+    query.bindValue(":fileName", file_name.c_str());
+    query.bindValue(":filePath", file_path.c_str());
+    query.bindValue(":fileSize", 1024);
+    if (query.exec()) {
+        qDebug() << "插入成功" ;
+    }
+    else {
+        qDebug() << "插入失败" ;
+        qDebug() << query.lastError().text();
+    }
+}
+
+void Update() {
+    QSqlQuery query;
+    query.prepare("UPDATE documents_table SET file_name = :newFileName, file_path = :newFilePath "
+                  "WHERE file_name = :oldFileName AND file_path = :oldFilePath");
+    query.bindValue(":newFileName", "T");
+    query.bindValue(":newFilePath", "../../");
+    query.bindValue(":oldFileName", "QT");
+    query.bindValue(":oldFilePath", "././");
+    if (query.exec()) {
+        if (query.numRowsAffected() > 0) {
+            // 更新成功
+            qDebug() << "Record updated";
+        } else {
+            // 没有满足条件的记录需要更新
+            qDebug() << "No matching record found";
+        }
+    } else {
+        // 更新失败
+        qDebug() << "Update failed:" << query.lastError().text();
+    }
+}
+
+void Delete() {
+    QSqlQuery query;
+    query.prepare("DELETE FROM documents_table WHERE file_name = :fileName AND file_path = :filePath");
+    query.bindValue(":fileName", "QT");
+    query.bindValue(":filePath", "././");
+    if (query.exec()) {
+        if (query.numRowsAffected() > 0) {
+            // 删除成功
+            qDebug() << "Record deleted";
+        } else {
+            // 没有满足条件的记录需要删除
+            qDebug() << "No matching record found";
+        }
+    } else {
+        // 删除失败
+        qDebug() << "Deletion failed:" << query.lastError().text();
+    }
+
+}
+void DeleteAllRecords() {
+    QSqlQuery query;
+    query.exec("DELETE FROM documents_table");
+    if (query.isActive()) {
+        // 删除成功
+        qDebug() << "All records deleted";
+    } else {
+        // 删除失败
+        qDebug() << "Deletion failed:" << query.lastError().text();
+    }
+}
+
+void DropTable() {
+    QSqlQuery query;
+    query.exec("DROP TABLE documents_table");
+    if (query.isActive()) {
+        // 删除表成功
+        qDebug() << "Table dropped";
+    } else {
+        // 删除表失败
+        qDebug() << "Table drop failed:" << query.lastError().text();
+    }
+}
 
 void QtFileTree(Ui::MainWindow *ui) {
 
@@ -39,7 +145,7 @@ void CppFileTree(Ui::MainWindow *ui) {
     //1，构造Model，这里示例具有3层关系的model构造过程
     auto model = new QStandardItemModel(ui->treeView);
     //    model->setHorizontalHeaderLabels(QStringList {"x1","x2"});     //设置列头
-    model->setHorizontalHeaderLabels(QStringList {"文件名"});     //设置列头
+    ui->treeView->header()->hide();
 
 
     auto path = std::filesystem::current_path();
@@ -91,6 +197,13 @@ void CppFileTree(Ui::MainWindow *ui) {
             if (is_hide_file == true) {
                 return;
             }
+            if (Select(file_path_string).size() == 0) {
+                Insert(file_name,file_path_string);
+            }
+            else {
+                std::cout << "数据:" + file_name + "已经存在" << std::endl;
+            }
+
             auto it1 = new QStandardItem(file_name.c_str());
             if (vec.size() <= tab+1) {
                 vec.back().back()->appendRow(it1);
@@ -148,6 +261,19 @@ MainWindow::MainWindow(QWidget *parent) :
         }
 
     }
+//    QSqlQuery query;
+//    query.prepare("INSERT INTO documents_table (file_name, file_path, file_size) "
+//                  "VALUES (:fileName, :filePath, :fileSize)");
+//    query.bindValue(":fileName", "example.txt");
+//    query.bindValue(":filePath", "/path/to/example.txt");
+//    query.bindValue(":fileSize", 1024);
+//    if (query.exec()) {
+//        qDebug() << "插入成功" ;
+//    }
+//    else {
+//        qDebug() << "插入失败" ;
+//        qDebug() << query.lastError().text();
+//    }
 
 
 //    QtFileTree(ui);
@@ -155,24 +281,36 @@ MainWindow::MainWindow(QWidget *parent) :
     CppFileTree(ui);
 
     ui->treeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->splitter->setStretchFactor(0,1);
-    ui->splitter->setStretchFactor(1,9);
+    ui->splitter->setStretchFactor(0,2);
+    ui->splitter->setStretchFactor(1,8);
 
-// 假设您已经有一个名为 treeView 的 QTreeView 实例
 
-// 连接 clicked 信号到自定义的槽函数
     connect(ui->treeView, &QTreeView::clicked, this, [=] (const QModelIndex &index) {
-
-        // 检查 index 是否有效
-        if (index.isValid())
-        {
-            // 获取点击的模型索引所表示的数据
+        if (index.isValid()) {
             QVariant data = index.data();
-
-            // 在这里处理您需要的逻辑，比如显示数据、执行操作等
             qDebug() << "Clicked on item: " << data.toString();
         }
     });
+
+
+
+    connect(ui->treeView, &QTreeView::doubleClicked, this, [=](const QModelIndex &index){
+        if (index.isValid()) {
+            ui->treeView->edit(index);
+        }
+    });
+
+    connect(ui->treeView->itemDelegate(), &QAbstractItemDelegate::closeEditor, this, [=](QWidget* editor, QAbstractItemDelegate::EndEditHint hint){
+        QLineEdit* lineEdit = qobject_cast<QLineEdit *>(editor);
+        if (lineEdit) {
+            QString newValue = lineEdit->text();
+            qDebug() << "Edited value: " << newValue;
+        }
+    });
+
+
+
+//    Select();
 
 
 }
