@@ -232,6 +232,8 @@ void CppFileTree(Ui::MainWindow *ui) {
             QVariant data = model->data(index, Qt::UserRole);
             QString filePath = data.toString();
             qDebug() << "Clicked File Path: " << filePath;
+            // 禁用撤销和重做操作
+            ui->textEdit->setUndoRedoEnabled(false);
 
             std::fstream file(filePath.toStdString(),std::ios::in);
             std::string text;
@@ -239,10 +241,11 @@ void CppFileTree(Ui::MainWindow *ui) {
                 ui->textEdit->append(text.c_str());
             }
             QTextCursor cursor = ui->textEdit->textCursor();
-
             // 移动光标到文本的开头位置
             cursor.movePosition(QTextCursor::Start);
             ui->textEdit->setTextCursor(cursor);
+            // 启用撤销和重做操作
+            ui->textEdit->setUndoRedoEnabled(true);
         }
 
     });
@@ -277,7 +280,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->read_only->setChecked(true);
     ui->textEdit->setReadOnly(true);
     connect(ui->read_only,&QAction::triggered,[=]{
-        if (ui->read_only->isChecked()) {
+        if (!ui->read_only->isChecked()) {
             ui->read_only->setChecked(false);
             ui->textEdit->setReadOnly(false);
         }
