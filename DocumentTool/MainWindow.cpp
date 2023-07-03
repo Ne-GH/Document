@@ -302,24 +302,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     }
 
-//    QSqlQuery query;
-//    query.prepare("INSERT INTO documents_table (file_name, file_path, file_size) "
-//                  "VALUES (:fileName, :filePath, :fileSize)");
-//    query.bindValue(":fileName", "example.txt");
-//    query.bindValue(":filePath", "/path/to/example.txt");
-//    query.bindValue(":fileSize", 1024);
-//    if (query.exec()) {
-//        qDebug() << "插入成功" ;
-//    }
-//    else {
-//        qDebug() << "插入失败" ;
-//        qDebug() << query.lastError().text();
-//    }
-
 //    QtFileTree(ui);
 
     CppFileTree(ui);
-
 
 //    Select();
 
