@@ -18,7 +18,7 @@ add_executable(${PROJECT_NAME} main.cpp
         MainWindow.h MainWindow.cpp MainWindow.ui
 
 
-        )
+        SettingDialog.cpp SettingDialog.h)
 target_link_libraries(${PROJECT_NAME}
         Qt::Core
         Qt::Gui

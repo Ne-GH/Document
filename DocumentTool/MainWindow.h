@@ -17,8 +17,8 @@ class MainWindow : public QMainWindow {
 
     Ui::MainWindow *ui = nullptr;
 public:
-    MainWindow(QWidget *prent = nullptr);
-    ~MainWindow() = default;
+    explicit MainWindow(QWidget *prent = nullptr);
+    ~MainWindow() override = default;
 
 
 };

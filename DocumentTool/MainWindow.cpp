@@ -11,9 +11,11 @@
 #include <QFileSystemModel>
 #include <QStandardItemModel>
 #include <QLineEdit>
+#include <fstream>
+
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
-#include <fstream>
+#include "SettingDialog.h"
 
 auto Select(std::string file_path) {
     QSqlQuery query;
@@ -332,6 +334,14 @@ MainWindow::MainWindow(QWidget *parent) :
 //    Select();
 
 
+    auto setting_dialog = new QAction("设置面板");
+    ui->menu_bar->addAction(setting_dialog);
+    connect(setting_dialog,&QAction::triggered,[=]{
+        SettingDialog settingDialog;
+        settingDialog.exec();
+
+
+    });
 }
 
 
