@@ -57,8 +57,20 @@
      <height>32</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>设置</string>
+    </property>
+    <addaction name="read_only"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="status_bar"/>
+  <action name="read_only">
+   <property name="text">
+    <string>只读</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

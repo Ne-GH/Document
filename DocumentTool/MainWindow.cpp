@@ -238,7 +238,11 @@ void CppFileTree(Ui::MainWindow *ui) {
             while (getline(file,text)) {
                 ui->textEdit->append(text.c_str());
             }
+            QTextCursor cursor = ui->textEdit->textCursor();
 
+            // 移动光标到文本的开头位置
+            cursor.movePosition(QTextCursor::Start);
+            ui->textEdit->setTextCursor(cursor);
         }
 
     });
@@ -268,6 +272,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->splitter->setStretchFactor(0,2);
     ui->splitter->setStretchFactor(1,8);
+
+    ui->read_only->setCheckable(true);
+    ui->read_only->setChecked(true);
+    ui->textEdit->setReadOnly(true);
+    connect(ui->read_only,&QAction::triggered,[=]{
+        if (ui->read_only->isChecked()) {
+            ui->read_only->setChecked(false);
+            ui->textEdit->setReadOnly(false);
+        }
+        else {
+            ui->read_only->setChecked(true);
+            ui->textEdit->setReadOnly(true);
+        }
+
+    });
+
 
     auto database = QSqlDatabase::addDatabase("QSQLITE");
     database.setDatabaseName("documents.db");
