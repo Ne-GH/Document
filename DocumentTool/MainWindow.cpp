@@ -13,6 +13,7 @@
 #include <QLineEdit>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+#include <fstream>
 
 auto Select(std::string file_path) {
     QSqlQuery query;
@@ -227,10 +228,19 @@ void CppFileTree(Ui::MainWindow *ui) {
     // 点击项的信号槽连接
     QObject::connect(ui->treeView, &QTreeView::clicked, [=](const QModelIndex& index){
         if (index.isValid()) {
+            ui->textEdit->clear();
             QVariant data = model->data(index, Qt::UserRole);
             QString filePath = data.toString();
             qDebug() << "Clicked File Path: " << filePath;
+
+            std::fstream file(filePath.toStdString(),std::ios::in);
+            std::string text;
+            while (getline(file,text)) {
+                ui->textEdit->append(text.c_str());
+            }
+
         }
+
     });
 
     QObject::connect(ui->treeView, &QTreeView::doubleClicked, [=](const QModelIndex &index){
