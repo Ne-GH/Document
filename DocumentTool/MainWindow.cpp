@@ -158,6 +158,7 @@ void CppFileTree(Ui::MainWindow *ui) {
 
     std::vector<std::vector<QStandardItem *>>vec;
     std::cout << path.filename().string() << std::endl;
+
     vec.push_back({new QStandardItem(path.filename().string().c_str())});
     model->appendRow(vec[0][0]);
     for (auto file : std::filesystem::recursive_directory_iterator(path)) {
@@ -178,7 +179,7 @@ void CppFileTree(Ui::MainWindow *ui) {
                     is_hide_file = true;
                 }
                 else {
-        //                    std::cout << std::string(tab*4,' ') << file.path().filename().string() << std::endl;
+                    // std::cout << std::string(tab*4,' ') << file.path().filename().string() << std::endl;
                 }
             }
             else if (file.is_regular_file()) {
@@ -190,7 +191,7 @@ void CppFileTree(Ui::MainWindow *ui) {
                     is_hide_file = true;
                 }
                 else {
-        //                    std::cout << std::string(tab*4,' ') << file.path().filename().string() << std::endl;
+                    // std::cout << std::string(tab*4,' ') << file.path().filename().string() << std::endl;
                 }
             }
 
@@ -205,6 +206,8 @@ void CppFileTree(Ui::MainWindow *ui) {
             }
 
             auto it1 = new QStandardItem(file_name.c_str());
+            it1->setData(file_path_string.c_str(), Qt::UserRole);
+
             if (vec.size() <= tab+1) {
                 vec.back().back()->appendRow(it1);
                 vec.push_back({});  // vec.size ++
@@ -221,6 +224,29 @@ void CppFileTree(Ui::MainWindow *ui) {
 
     ui->treeView->setModel(model);
 
+    // 点击项的信号槽连接
+    QObject::connect(ui->treeView, &QTreeView::clicked, [=](const QModelIndex& index){
+        if (index.isValid()) {
+            QVariant data = model->data(index, Qt::UserRole);
+            QString filePath = data.toString();
+            qDebug() << "Clicked File Path: " << filePath;
+        }
+    });
+
+    QObject::connect(ui->treeView, &QTreeView::doubleClicked, [=](const QModelIndex &index){
+        if (index.isValid()) {
+            ui->treeView->edit(index);
+        }
+    });
+
+    QObject::connect(ui->treeView->itemDelegate(), &QAbstractItemDelegate::closeEditor, [=](QWidget* editor, QAbstractItemDelegate::EndEditHint hint){
+        QLineEdit* lineEdit = qobject_cast<QLineEdit *>(editor);
+        if (lineEdit) {
+            QString newValue = lineEdit->text();
+            qDebug() << "Edited value: " << newValue;
+        }
+    });
+
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -228,6 +254,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     setCentralWidget(ui->splitter);
+
+    ui->treeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->splitter->setStretchFactor(0,2);
+    ui->splitter->setStretchFactor(1,8);
 
     auto database = QSqlDatabase::addDatabase("QSQLITE");
     database.setDatabaseName("documents.db");
@@ -261,6 +291,7 @@ MainWindow::MainWindow(QWidget *parent) :
         }
 
     }
+
 //    QSqlQuery query;
 //    query.prepare("INSERT INTO documents_table (file_name, file_path, file_size) "
 //                  "VALUES (:fileName, :filePath, :fileSize)");
@@ -275,39 +306,9 @@ MainWindow::MainWindow(QWidget *parent) :
 //        qDebug() << query.lastError().text();
 //    }
 
-
 //    QtFileTree(ui);
 
     CppFileTree(ui);
-
-    ui->treeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->splitter->setStretchFactor(0,2);
-    ui->splitter->setStretchFactor(1,8);
-
-
-    connect(ui->treeView, &QTreeView::clicked, this, [=] (const QModelIndex &index) {
-        if (index.isValid()) {
-            QVariant data = index.data();
-            qDebug() << "Clicked on item: " << data.toString();
-        }
-    });
-
-
-
-    connect(ui->treeView, &QTreeView::doubleClicked, this, [=](const QModelIndex &index){
-        if (index.isValid()) {
-            ui->treeView->edit(index);
-        }
-    });
-
-    connect(ui->treeView->itemDelegate(), &QAbstractItemDelegate::closeEditor, this, [=](QWidget* editor, QAbstractItemDelegate::EndEditHint hint){
-        QLineEdit* lineEdit = qobject_cast<QLineEdit *>(editor);
-        if (lineEdit) {
-            QString newValue = lineEdit->text();
-            qDebug() << "Edited value: " << newValue;
-        }
-    });
-
 
 
 //    Select();
