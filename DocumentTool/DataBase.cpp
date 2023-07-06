@@ -106,7 +106,7 @@ void DataBase::Delete() {
     }
 
 }
-void DeleteAllRecords() {
+void DataBase::DeleteAllRecords() {
     QSqlQuery query;
     query.exec("DELETE FROM documents_table");
     if (query.isActive()) {

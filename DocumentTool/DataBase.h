@@ -23,6 +23,8 @@ public:
     static void Insert(std::string file_name, std::string file_path);
 
     static void Update();
+
+    static void DeleteAllRecords();
 };
 
 

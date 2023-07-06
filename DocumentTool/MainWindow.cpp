@@ -224,5 +224,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 }
 
+MainWindow::~MainWindow() {
+
+    std::filesystem::remove("./documents.db");
+
+}
+
 
 
