@@ -16,6 +16,10 @@ class SettingDialog : public QDialog {
     Q_OBJECT
 private:
     Ui::SettingDialog *ui;
+signals:
+    void SetTextFont(QString);
+    void SetTextFontSize(QString);
+
 public:
     explicit SettingDialog(QWidget * = nullptr);
     ~SettingDialog() override;

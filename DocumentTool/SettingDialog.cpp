@@ -46,6 +46,8 @@ void SettingDialog::SetFount() {
     ClearWindow();
     QComboBox *box = new QComboBox(ui->widget);
     box->move(100,100);
+    QComboBox *fount_size_box = new QComboBox(ui->widget);
+    fount_size_box->move(200,200);
 
     /* //列出系统支持的所有字体的名称
     foreach(const QString & family, database.families())
@@ -57,13 +59,21 @@ void SettingDialog::SetFount() {
     foreach(const QString & family, QFontDatabase::families(QFontDatabase::SimplifiedChinese)) {
             box->addItem(family);
     }
+    for (int i = 5;i < 30; ++i) {
+        fount_size_box->addItem(std::to_string(i).c_str());
+    }
 
     box->show();
+    fount_size_box->show();
 
-    connect(box,&QComboBox::currentTextChanged,[=](const QString choose_text){
-//        qDebug() << choose_text;
+    connect(box,&QComboBox::currentTextChanged,[=](QString choose_text){
+        qDebug() << choose_text;
+        emit SetTextFont(choose_text);
     });
-
+    connect(fount_size_box,&QComboBox::currentTextChanged,[=](QString choose_text){
+        qDebug() << choose_text;
+        emit SetTextFontSize(choose_text);
+    });
 
 }
 
@@ -78,7 +88,7 @@ void SettingDialog::SetTheme() {
 
     connect(box,&QComboBox::currentTextChanged,[=](const QString choose_text){
         setStyle(QStyleFactory::create(choose_text));
-//        qDebug() << choose_text;
+        qDebug() << choose_text;
     });
 
 }

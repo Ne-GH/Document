@@ -334,14 +334,28 @@ MainWindow::MainWindow(QWidget *parent) :
 //    Select();
 
 
-    auto setting_dialog = new QAction("设置面板");
-    ui->menu_bar->addAction(setting_dialog);
-    connect(setting_dialog,&QAction::triggered,[=]{
-        SettingDialog settingDialog;
-        settingDialog.exec();
-
-
+    auto setting_dialog_action = new QAction("设置面板");
+    ui->menu_bar->addAction(setting_dialog_action);
+    auto settingDialog = new SettingDialog;
+    connect(setting_dialog_action,&QAction::triggered,[=]{
+        settingDialog->exec();
     });
+
+    QObject::connect(settingDialog,&SettingDialog::SetTextFont,[=](QString font){
+        ui->textEdit->setFontFamily(font);
+        auto tmp = ui->textEdit->toPlainText();
+        ui->textEdit->clear();
+        ui->textEdit->setText(tmp);
+    });
+    QObject::connect(settingDialog,&SettingDialog::SetTextFontSize,[=](QString font){
+
+        ui->textEdit->setFontPointSize(font.toInt());
+        ui->textEdit->setFontFamily(font);
+        auto tmp = ui->textEdit->toPlainText();
+        ui->textEdit->clear();
+        ui->textEdit->setText(tmp);
+    });
+
 }
 
 
