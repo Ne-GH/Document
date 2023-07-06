@@ -17,8 +17,9 @@ find_package(Qt6 COMPONENTS
 add_executable(${PROJECT_NAME} main.cpp
         MainWindow.h MainWindow.cpp MainWindow.ui
 
+        SettingDialog.cpp SettingDialog.h
+        DataBase.cpp DataBase.h)
 
-        SettingDialog.cpp SettingDialog.h)
 target_link_libraries(${PROJECT_NAME}
         Qt::Core
         Qt::Gui
