@@ -125,6 +125,11 @@ int main() {
 }
 
 
+template <typename ...Args> 
+std::string Format(std::string format_str,Args&&... args) {
+    return std::vformat(format_str,std::make_format_args(args));
+}
+
 
 // 这是一个可以传递参数给自定义类型的demo
 /*
