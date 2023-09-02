@@ -7,7 +7,11 @@ git remote add origin github + 仓库的url地址
 git branch
     查看当前分支
 git branch -a
-    查看所有分支
+    查看所有分支（包括远程分支）
+git branch -av
+    在git branch -a的基础上添加各个分支的最后一次提交信息
+git branch -avv
+    在git branch -av的基础上标识该仓库最后一次提交的分支
 git pull
     更新代码到本地
 github pull origin master 
