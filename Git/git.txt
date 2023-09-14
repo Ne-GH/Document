@@ -1,42 +1,60 @@
-git add + 追踪的文件，文件夹   
     将其添加到追踪列表
-git commit -m “提交信息” 
-    将文件提交到本地仓库
-git remote add origin github + 仓库的url地址 
-    将本地仓库与github关联
-git branch
-    查看当前分支
-git branch -a
-    查看所有分支（包括远程分支）
-git branch -av
-    在git branch -a的基础上添加各个分支的最后一次提交信息
-git branch -avv
-    在git branch -av的基础上标识该仓库最后一次提交的分支
-git pull
-    更新代码到本地
-github pull origin master 
-    将仓库(关联的)内容拉到本地
-git push 
-    提交代码到当前分支
-git push -u origin master 
-    将文件提交到关联的github的仓库
-git push origin master --force
-    强制用本地仓库覆盖远程master仓库
-git status
-    显示代码库状态
-git log 
-    打印提交信息
-git diff
-    对比当前状态和版本库中状态的变化    
-git config --global user.name "你的用户名"
-    添加用户名
-git config --global user.email "你的邮箱"
-    添加一个邮箱（不清楚是不是必须是github上的邮箱）
-ssh-keygen -t rsa -C "你的邮箱"
-    生成ssh密匙
-ssh -T git@github.com
-    测试是否能正常连接github
+git add + 追踪的文件，文件夹   
 
+    放弃该文件的修改
+git restore filename
+
+    将文件提交到本地仓库
+git commit -m “提交信息” 
+
+    将本地仓库与github关联
+git remote add origin github + 仓库的url地址 
+
+    查看当前分支
+git branch
+    查看所有分支（包括远程分支）
+git branch -a
+    在git branch -a的基础上添加各个分支的最后一次提交信息
+git branch -av
+    在git branch -av的基础上标识该仓库最后一次提交的分支
+git branch -avv
+
+
+    更新代码到本地
+git pull
+    将仓库(关联的)内容拉到本地
+github pull origin master 
+
+
+    提交代码到当前分支
+git push 
+    将文件提交到关联的github的仓库
+git push -u origin master 
+    强制用本地仓库覆盖远程master仓库
+git push origin master --force
+
+
+    显示代码库状态
+git status
+
+    打印提交信息
+git log 
+
+    对比当前状态和版本库中状态的变化    
+git diff
+
+    添加用户名
+git config --global user.name "你的用户名"
+    添加一个邮箱（不清楚是不是必须是github上的邮箱）
+git config --global user.email "你的邮箱"
+
+    生成ssh密匙
+ssh-keygen -t rsa -C "你的邮箱"
+
+    测试是否能正常连接github
+ssh -T git@github.com
+
+    回退项目版本
 git log
 git reset -hard XXXXXX(HEAD^)
 git push origin HEAD --force
