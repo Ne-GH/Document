@@ -52,8 +52,16 @@ int main() {
 
 
 
+    // 从日期构建time_point
+    using namespace std::chrono_literals;
+    auto day_time = std::chrono::sys_days(2022y/11/17);
+    auto cur_time = std::chrono::system_clock::now();
+    int days = std::chrono::duration_cast<std::chrono::days>(cur_time.time_since_epoch() - day_time.time_since_epoch()).count();
+    std::cout << days << std::endl;
 
-
+    // 获取本地时区时间
+    auto local_time = std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
+    // int h = std::stoi(std::format("{:%H}",cur_time));
 
 	return 0;
 }
