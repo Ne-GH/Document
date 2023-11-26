@@ -14,14 +14,14 @@ public:
     }
     int arr[10];
 
-    void* operator new(unsigned long size_t){
+    void* operator new(unsigned long size_t) noexcept {
         cout << "重载的new" << endl;
 
         if(void *p = malloc(size_t)){
             return p;
         }
         else
-            return NULL;
+            return nullptr;
     }
 
     void operator delete(void *p){
