@@ -14,10 +14,10 @@ public:
     }
     int arr[10];
 
-    void* operator new(unsigned long size_t) noexcept {
+    void* operator new(std::size_t size) noexcept {
         cout << "重载的new" << endl;
 
-        if(void *p = malloc(size_t)){
+        if(void *p = malloc(size)){
             return p;
         }
         else
@@ -25,11 +25,15 @@ public:
     }
 
     void operator delete(void *p){
+        std::cout << "重载的delete函数" << std::endl;
         free(p);
     }
 };
 int main(){
     Node *p = (Node *)Node::operator new(sizeof(Node));
+    p = ::new (p)Node;
+    delete p;
+
 
 
 
