@@ -23,6 +23,10 @@ public:
         else
             return nullptr;
     }
+    void* operator new(std::size_t size,void *ptr) {
+        std::cout << "重载的布置函数" << std::endl;
+        return ptr;
+    }
 
     void operator delete(void *p){
         std::cout << "重载的delete函数" << std::endl;
@@ -31,7 +35,7 @@ public:
 };
 int main(){
     Node *p = (Node *)Node::operator new(sizeof(Node));
-    p = ::new (p)Node;
+    p = new (p)Node;
     delete p;
 
 
