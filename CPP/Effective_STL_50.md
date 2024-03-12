@@ -36,3 +36,7 @@ istream_iterator 默认使用>>进行输入，需要格式化，效率较低,可
 * 选出前n个元素（无序），使用nth_element
 * 将元素分隔为满足特定条件和不满足特定条件，使用partition、stable_partition(满足条件的会被移动到前面)
 * 效率排序 partition stable_partition nth_element partial_sort sort stable_sort
+
+## 其他建议  
+#### 相等和等价的区别
+TODO
