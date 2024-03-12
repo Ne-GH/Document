@@ -28,3 +28,11 @@ STL本身缺乏散列容器可以使用SGI或者STLport的散列容器实现
 
 #### 需要一个字符一个字符输入时，考虑使用istreambuf_iterator  
 istream_iterator 默认使用>>进行输入，需要格式化，效率较低,可使用istreambuf_iterator代替，只获取下一个字符，无格式化检测等操作
+
+#### 合理选择排序算法
+* 常见的排序算法需要双向迭代器，因此不应对list容器使用（list容器内置sort方法）
+* 对所有元素排序，使用sort、stable_sort
+* 选出前n个元素（有序），使用partial_sort
+* 选出前n个元素（无序），使用nth_element
+* 将元素分隔为满足特定条件和不满足特定条件，使用partition、stable_partition(满足条件的会被移动到前面)
+* 效率排序 partition stable_partition nth_element partial_sort sort stable_sort
