@@ -1,5 +1,9 @@
 #include<iostream>
 #include<fstream>
+#include <istream>
+#include <iterator>
+#include <string>
+#include <strstream>
 using namespace std;
 
 
@@ -68,5 +72,18 @@ int main() {
 //    ios::in | ios::out  	        打开已存在的文件，可以向其写入数据。文件刚打开时，原有内容保持不变。如果文件不存在，则打开出错。
 //    ios::in | ios::out | ios::trunc 	fstream 	打开文件，既可读取其内容，也可向其写入数据。如果文件本来就存在，则打开时清除原来的内容；如果文件不存在，则新建该文件。
     fstream file("filename",std::ios::app);
+
+    std::ifstream input_file("filename");
+    input_file.unsetf(ios::skipws); // 关闭input_file的忽略空格标志，
+                                   // 如果没有,则无法读入空格(默认使用 >> 读入)
+    string file_data((istream_iterator<char>(input_file)),istream_iterator<char>());
+    // 默认使用 >> 进行格式化输入，效率较低
+
+    ifstream input__file("filename");
+    string file__data((istreambuf_iterator<char>(input__file)),istreambuf_iterator<char>());
+    // 无需设置unset(ios::skipws),istreambuf_iterator默认不忽略任何字符，只是获取下一个字符
+
+
+
 
 }
