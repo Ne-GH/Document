@@ -37,6 +37,20 @@ istream_iterator 默认使用>>进行输入，需要格式化，效率较低,可
 * 将元素分隔为满足特定条件和不满足特定条件，使用partition、stable_partition(满足条件的会被移动到前面)
 * 效率排序 partition stable_partition nth_element partial_sort sort stable_sort
 
+#### 使用成员函数代替同名算法
+* 成员函数更快
+* 成员函数和算法有更高的适配性
+* 关联容器的成员函数使用等价进行判断，非成员STL算法使用相等进行判断，成员函数使用了和容器一致的行为，但是非成员函数则不能提供这样一致的行为（例如对set、map的find,成员函数调用operator == ,非成员函数调用 operator < ）
+
+#### 使用函数对象代替函数做算法的参数
+* 函数指针会抑制内联优化，函数对象的调用则可能被内联
+* 让程序更健壮(有时传递函数指针，编译时存在歧义)
+
+
+
+
 ## 其他建议  
+
 #### 相等和等价的区别
-TODO
+* 相等基于operator ==,如果 x == y返回true，说明x和y有相等的值
+* 等价基于operator < ，如果x < y 为假 && y < x 为假，则说明x和y有等价的值
