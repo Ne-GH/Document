@@ -7,6 +7,32 @@
 using namespace std;
 
 
+char * FstreamGetFileToCharPointer(std::fstream::path path) {
+    ifstream file(path);
+    file.seekg(0,std::ios::end);
+    int length = file.tellg();
+    file.seekg(0,std::ios::beg);
+    char * buf = new char[length];
+    file.read(buf,length);
+    file.close();
+    return buf;
+}
+
+std::string FstreambufInteratorGetFile(std::fstream::path) {
+    ifstream file(pathe);
+    return std::string(std::istreambuf_iterator<char>(file),
+        std::istream_iterator<char>());
+}
+
+std::string StringstreamGetFile(std::fstream::path) {
+    std::stringstream buf;
+    buf << file.rdbuf();
+    return std::string(buf.str());
+}
+
+
+
+
 int main() {
 
 
