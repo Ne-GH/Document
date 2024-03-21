@@ -7,27 +7,39 @@
 using namespace std;
 
 
-char * FstreamGetFileToCharPointer(std::fstream::path path) {
-    ifstream file(path);
-    file.seekg(0,std::ios::end);
-    int length = file.tellg();
-    file.seekg(0,std::ios::beg);
-    char * buf = new char[length];
-    file.read(buf,length);
-    file.close();
-    return buf;
+std::string func1(std::filesystem::path path) {
+    std::ifstream file(path);
+    file.unsetf(std::ios::skipws);
+    return std::string(std::istream_iterator<char>(file), std::istream_iterator<char>());
 }
-
-std::string FstreambufInteratorGetFile(std::fstream::path) {
-    ifstream file(pathe);
-    return std::string(std::istreambuf_iterator<char>(file),
-        std::istream_iterator<char>());
+std::string func2(std::filesystem::path path) {
+    std::ifstream file(path);
+    return std::string(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
 }
+std::string func3(std::filesystem::path path) {
 
-std::string StringstreamGetFile(std::fstream::path) {
-    std::stringstream buf;
-    buf << file.rdbuf();
-    return std::string(buf.str());
+    std::ifstream file(path, std::ios::binary | std::ios::ate);
+
+    auto length = file.tellg();
+    file.seekg(std::ios::beg);
+    std::string ret(length, 0);
+    file.read(&ret[0], length);
+    
+    return ret;
+}
+std::string func4(std::filesystem::path path) {
+    std::ifstream file(path);
+    std::stringstream ss;
+    ss << file.rdbuf();
+    return std::string(ss.str());
+}
+std::string func5(std::filesystem::path path) {
+    std::string ret,tmp;
+    std::ifstream file(path);
+    while (std::getline(file, tmp)) {
+        ret += tmp + '\n';
+    }
+    return ret;
 }
 
 
@@ -114,117 +126,3 @@ int main() {
 
 }
 
-
-
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <functional>
-#include <filesystem>
-import Time;
-
-std::string func5(std::filesystem::path path);
-std::string CreateFile(std::filesystem::path path) {
-	std::ofstream file(path);
-
-
-	for (int i = 0; i < 1; ++i) {
-		file << "hello world\n";
-	}
-	file.close();
-	return func5(path);
-}
-
-std::string test(std::function<std::string (std::filesystem::path)> func) {
-
-	Time::Timer beg;
-	std::string ret;
-
-	for (int i = 0; i < 1000; ++i) {
-		ret = func("./test.txt");
-	}
-
-	Time::Timer end;
-
-	std::cout << (end - beg).Count(Time::CountType::milliseconds) << std::endl;
-	return ret;
-}
-
-std::string func1(std::filesystem::path path) {
-	std::ifstream file(path);
-	file.unsetf(std::ios::skipws);
-	return std::string(std::istream_iterator<char>(file), std::istream_iterator<char>());
-}
-std::string func2(std::filesystem::path path) {
-	std::ifstream file(path);
-	return std::string(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
-}
-std::string func3(std::filesystem::path path) {
-	std::cout << "func3: " << std::endl;
-	
-	std::ifstream fileReader(path, std::ios::binary | std::ios::ate);
-	if (fileReader) {
-		auto fileSize = fileReader.tellg();
-		std::cout << fileSize << std::endl;
-		fileReader.seekg(std::ios::beg);
-		std::string content(fileSize, 0);
-		fileReader.read(&content[0], fileSize);
-	}
-
-	std::ifstream file(path);
-	file.seekg(0, std::ios::end);
-	int length = file.tellg();
-	std::cout << length << std::endl;
-	file.seekg(0, std::ios::beg);
-	char buf[100] = {};
-	// char* buf = new char[length];
-	file.read(buf, length);
-	return std::string(buf);
-}
-std::string func4(std::filesystem::path path) {
-	std::ifstream file(path);
-	std::stringstream ss;
-	ss << file.rdbuf();
-	return std::string(ss.str());
-}
-std::string func5(std::filesystem::path path) {
-	std::string ret,tmp;
-	std::ifstream file(path);
-	while (std::getline(file, tmp)) {
-		ret += tmp + '\n';
-	}
-	return ret;
-}
-
-
-int main() {
-
-	auto str = CreateFile("./test.txt");
-
-	if (str == test(func1)) {
-		std::cout << "1" << std::endl;
-	}
-	if (str == test(func2)) {
-		std::cout << "2" << std::endl;
-	}
-	if (str == test(func3)) {
-		std::cout << "3" << std::endl;
-	}
-	else {
-		std::cout << test(func3) << std::endl;
-	}
-	if (str == test(func4)) {
-		std::cout << "4" << std::endl;
-	}
-	if (str == test(func5)) {
-		std::cout << "5" << std::endl;
-	}
-
-
-
-
-
-	
-
-
-}
