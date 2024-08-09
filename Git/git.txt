@@ -58,3 +58,9 @@ ssh -T git@github.com
 git log
 git reset -hard XXXXXX(HEAD^)
 git push origin HEAD --force
+
+    LF 和 CRLF
+git config --global core.autocrlf ture
+    ture : 提交时转为LF, 检出（pull ,checkout）时转为CRLF
+    input: 提交时转为LF, 检出时无处理
+    flase: 提交和检出都不处理
