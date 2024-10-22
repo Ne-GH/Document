@@ -87,6 +87,21 @@ public:
         free(p);
     }
 
+    // const 对象的重载
+    void show() const {
+        std::cout << "const object" << std::endl;
+    }
+    void show() {
+        std::cout << "object" << std::endl;
+    }
+
+    void show_() & {
+        std::cout << "左值" << std::endl;
+    }
+    void show_() && {
+        std::cout << "右值" << std::endl;
+    }
+
 
 private:
     int nums[10];
