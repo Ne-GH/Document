@@ -20,7 +20,8 @@ endif()
 # 指定编译器
 set(CMAKE_CXX_COMPILER "path")
 
-
+# 指定编译类型
+set(CMAKE_BUILD_TYPE Release)
 # 设置 C 编译选项(优先使用set CMKAE_C_FLAGS)
 set(CMAKE_C_FLAGS -O2)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
